@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import SideNav from '../ui/dashboard/sidenav'
+import { Suspense } from 'react'
 
 interface IDashboardLayout {
   children: React.ReactNode

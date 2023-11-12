@@ -27,8 +27,6 @@ export async function fetchRevenue() {
   console.log('fetchRevenue: ', getCurrentTime())
 
   try {
-    await new Promise(resolve => setTimeout(resolve, 3000))
-
     const data = await sql<Revenue>`SELECT * FROM revenue`
 
     console.log('fetchRevenue end: ', getCurrentTime())
@@ -60,14 +58,7 @@ export async function fetchLatestInvoices() {
 
     console.log('fetchLatestInvoices end: ', getCurrentTime())
 
-    //Искусственная задержка
-    const response: typeof latestInvoices = await new Promise(resolve => {
-      setTimeout(() => {
-        resolve(latestInvoices)
-      }, 5000)
-    })
-
-    return response
+    return latestInvoices
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error('Failed to fetch the latest invoices.')
@@ -210,7 +201,7 @@ export async function fetchCustomers() {
     `
 
     const customers = data.rows
-    
+
     return customers
   } catch (err) {
     console.error('Database Error:', err)

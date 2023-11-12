@@ -2,6 +2,7 @@ import Breadcrumbs from '@/app/ui/invoices/breadcrumbs'
 import Form from '@/app/ui/invoices/edit-form'
 import { fetchCustomers, fetchInvoiceById } from '@/app/lib/data'
 import { InvoiceForm, CustomerField } from '@/app/lib/definitions'
+import { notFound } from 'next/navigation'
 
 interface IEditPagePageProps {
   params: { id: string }
@@ -14,6 +15,10 @@ const EditPage = async ({ params }: IEditPagePageProps) => {
     fetchInvoiceById(id),
     fetchCustomers(),
   ])) as unknown as [InvoiceForm, CustomerField[]]
+
+  if (!invoice) {
+    notFound()
+  }
 
   return (
     <main>

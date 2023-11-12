@@ -1,7 +1,7 @@
 import DashboardSkeleton from '@/app/ui/skeletons'
 
 const DashboardLoading = () => {
-    return <DashboardSkeleton />
+  return <DashboardSkeleton />
 }
 
 export default DashboardLoading

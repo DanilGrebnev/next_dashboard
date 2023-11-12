@@ -10,10 +10,14 @@ import {
 } from '@heroicons/react/24/outline'
 import { Button } from '@/app/ui/button'
 import { createInvoice } from '@/app/lib/actions'
+import { useFormState } from 'react-dom'
 
-export default function Form({ customers }: { customers: CustomerField[] }) {
+const Form = ({ customers }: { customers: CustomerField[] }) => {
+  const initialState = { message: null, errors: {} }
+  const [state, dispatch] = useFormState(createInvoice, initialState)
+
   return (
-    <form action={createInvoice}>
+    <form action={dispatch}>
       <div className='rounded-md bg-gray-50 p-4 md:p-6'>
         {/* Customer Name */}
         <div className='mb-4'>
@@ -27,7 +31,8 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               id='customer'
               name='customerId'
               className='peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500'
-              defaultValue=''>
+              defaultValue=''
+              aria-describedby='customer-error'>
               <option
                 value=''
                 disabled>
@@ -43,6 +48,16 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
             </select>
             <UserCircleIcon className='pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500' />
           </div>
+          {state.errors?.customerId ? (
+            <div
+              id='customer-error'
+              aria-live='polite'
+              className='mt-2 text-sm text-red-500'>
+              {state.errors.customerId.map((error: string) => (
+                <p key={error}>{error}</p>
+              ))}
+            </div>
+          ) : null}
         </div>
 
         {/* Invoice Amount */}
@@ -64,6 +79,16 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               />
               <CurrencyDollarIcon className='pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900' />
             </div>
+            {state.errors?.amount ? (
+              <div
+                id='customer-error'
+                aria-live='polite'
+                className='mt-2 text-sm text-red-500'>
+                {state.errors.amount.map((error: string) => (
+                  <p key={error}>{error}</p>
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
 
@@ -104,6 +129,16 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               </div>
             </div>
           </div>
+          {state.errors?.status ? (
+            <div
+              id='customer-error'
+              aria-live='polite'
+              className='mt-2 text-sm text-red-500'>
+              {state.errors.status.map((error: string) => (
+                <p key={error}>{error}</p>
+              ))}
+            </div>
+          ) : null}
         </fieldset>
       </div>
       <div className='mt-6 flex justify-end gap-4'>
@@ -117,3 +152,5 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
     </form>
   )
 }
+
+export default Form
